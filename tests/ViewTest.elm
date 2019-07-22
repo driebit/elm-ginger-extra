@@ -2,10 +2,13 @@ module ViewTest exposing (suite)
 
 import Expect exposing (Expectation)
 import Fuzz exposing (Fuzzer, int, list, string)
+import Ginger.Error
 import Ginger.Social exposing (..)
+import Ginger.Translation as Translation exposing (Language)
 import Ginger.View
 import Html exposing (a, img, li, span, ul)
 import Html.Attributes exposing (..)
+import Http
 import Test exposing (..)
 import Test.Html.Query as Query
 import Test.Html.Selector exposing (..)
@@ -177,19 +180,10 @@ suite =
                                 ]
                             ]
             ]
-
-        -- Expect.equal is designed to be used in pipeline style, like this.
-        , test "reverses a known string" <|
-            \_ ->
-                "ABCDEFG"
-                    |> String.reverse
-                    |> Expect.equal "GFEDCBA"
-
-        -- fuzz runs the test 100 times with randomly-generated inputs!
-        , fuzz string "restores the original string if you run it again" <|
-            \randomlyGeneratedString ->
-                randomlyGeneratedString
-                    |> String.reverse
-                    |> String.reverse
-                    |> Expect.equal randomlyGeneratedString
+        , describe "Ginger.Error"
+            [ test "Gives an English 404 message" <|
+                \() ->
+                    Ginger.Error.errormessage EN (Http.BadStatus 404)
+                        |> Expect.equal { title = "404 Not Found", body = "Sorry, the page you are looking for doesn't exist." }
+            ]
         ]
