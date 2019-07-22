@@ -90,92 +90,92 @@ suite =
                             |> Query.fromHtml
                             |> Query.has [ text "I am the default text." ]
                 ]
-            , describe "Ginger.Social"
-                [ test "viewShareLinks renders a list of share links" <|
-                    \() ->
-                        let
-                            url =
-                                { protocol = Url.Https
-                                , host = "example.com"
-                                , port_ = Nothing
-                                , path = "/page"
-                                , query = Nothing
-                                , fragment = Nothing
-                                }
-                        in
-                        Ginger.Social.viewShareLinks [ Ginger.Social.Twitter, Ginger.Social.Facebook ]
-                            url
-                            "Title"
-                            |> Query.fromHtml
-                            |> Query.findAll [ tag "li" ]
-                            |> Query.first
-                            |> Query.contains
-                                [ li []
-                                    [ a
-                                        [ href "http://twitter.com/share?text=Title&url=https://example.com/page"
-                                        , target "_blank"
-                                        , rel "noopener noreferrer"
-                                        , title "Twitter"
-                                        ]
-                                        [ span
-                                            [ Html.Attributes.style "position" "absolute"
-                                            , Html.Attributes.style "clip" "rect(1px,1px,1px,1px)"
-                                            , Html.Attributes.style "overflow" "hidden"
-                                            , Html.Attributes.style "height" "1px"
-                                            , Html.Attributes.style "width" "1px"
-                                            , Html.Attributes.style "word-wrap" "normal"
-                                            , Html.Attributes.style "white-space" "nowrap"
-                                            ]
-                                            [ Html.text "Share this page on Twitter" ]
-                                        , Html.text ""
-                                        ]
-                                    ]
-                                ]
-                , test "viewShareLinksWith renders a list of share links" <|
-                    \() ->
-                        let
-                            url =
-                                { protocol = Url.Https
-                                , host = "example.com"
-                                , port_ = Nothing
-                                , path = "/page"
-                                , query = Nothing
-                                , fragment = Nothing
-                                }
-                        in
-                        Ginger.Social.viewShareLinksWith
-                            { defaultOptions
-                                | a11yString = "Deel deze pagina op"
+            ]
+        , describe "Ginger.Social"
+            [ test "viewShareLinks renders a list of share links" <|
+                \() ->
+                    let
+                        url =
+                            { protocol = Url.Https
+                            , host = "example.com"
+                            , port_ = Nothing
+                            , path = "/page"
+                            , query = Nothing
+                            , fragment = Nothing
                             }
-                            [ ( Ginger.Social.Twitter, img [] [] ), ( Ginger.Social.Facebook, img [] [] ) ]
-                            url
-                            "Title"
-                            |> Query.fromHtml
-                            |> Query.findAll [ tag "li" ]
-                            |> Query.index 1
-                            |> Query.contains
-                                [ li []
-                                    [ a
-                                        [ href "http://www.facebook.com/sharer.php?u=https://example.com/page&t=Title"
-                                        , target "_blank"
-                                        , rel "noopener noreferrer"
-                                        , title "Facebook"
+                    in
+                    Ginger.Social.viewShareLinks [ Ginger.Social.Twitter, Ginger.Social.Facebook ]
+                        url
+                        "Title"
+                        |> Query.fromHtml
+                        |> Query.findAll [ tag "li" ]
+                        |> Query.first
+                        |> Query.contains
+                            [ li []
+                                [ a
+                                    [ href "http://twitter.com/share?text=Title&url=https://example.com/page"
+                                    , target "_blank"
+                                    , rel "noopener noreferrer"
+                                    , title "Twitter"
+                                    ]
+                                    [ span
+                                        [ Html.Attributes.style "position" "absolute"
+                                        , Html.Attributes.style "clip" "rect(1px,1px,1px,1px)"
+                                        , Html.Attributes.style "overflow" "hidden"
+                                        , Html.Attributes.style "height" "1px"
+                                        , Html.Attributes.style "width" "1px"
+                                        , Html.Attributes.style "word-wrap" "normal"
+                                        , Html.Attributes.style "white-space" "nowrap"
                                         ]
-                                        [ span
-                                            [ Html.Attributes.style "position" "absolute"
-                                            , Html.Attributes.style "clip" "rect(1px,1px,1px,1px)"
-                                            , Html.Attributes.style "overflow" "hidden"
-                                            , Html.Attributes.style "height" "1px"
-                                            , Html.Attributes.style "width" "1px"
-                                            , Html.Attributes.style "word-wrap" "normal"
-                                            , Html.Attributes.style "white-space" "nowrap"
-                                            ]
-                                            [ Html.text "Deel deze pagina op Facebook" ]
-                                        , img [] []
-                                        ]
+                                        [ Html.text "Share this page on Twitter" ]
+                                    , Html.text ""
                                     ]
                                 ]
-                ]
+                            ]
+            , test "viewShareLinksWith renders a list of share links" <|
+                \() ->
+                    let
+                        url =
+                            { protocol = Url.Https
+                            , host = "example.com"
+                            , port_ = Nothing
+                            , path = "/page"
+                            , query = Nothing
+                            , fragment = Nothing
+                            }
+                    in
+                    Ginger.Social.viewShareLinksWith
+                        { defaultOptions
+                            | a11yString = "Deel deze pagina op"
+                        }
+                        [ ( Ginger.Social.Twitter, img [] [] ), ( Ginger.Social.Facebook, img [] [] ) ]
+                        url
+                        "Title"
+                        |> Query.fromHtml
+                        |> Query.findAll [ tag "li" ]
+                        |> Query.index 1
+                        |> Query.contains
+                            [ li []
+                                [ a
+                                    [ href "http://www.facebook.com/sharer.php?u=https://example.com/page&t=Title"
+                                    , target "_blank"
+                                    , rel "noopener noreferrer"
+                                    , title "Facebook"
+                                    ]
+                                    [ span
+                                        [ Html.Attributes.style "position" "absolute"
+                                        , Html.Attributes.style "clip" "rect(1px,1px,1px,1px)"
+                                        , Html.Attributes.style "overflow" "hidden"
+                                        , Html.Attributes.style "height" "1px"
+                                        , Html.Attributes.style "width" "1px"
+                                        , Html.Attributes.style "word-wrap" "normal"
+                                        , Html.Attributes.style "white-space" "nowrap"
+                                        ]
+                                        [ Html.text "Deel deze pagina op Facebook" ]
+                                    , img [] []
+                                    ]
+                                ]
+                            ]
             ]
 
         -- Expect.equal is designed to be used in pipeline style, like this.
