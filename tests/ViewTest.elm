@@ -183,7 +183,11 @@ suite =
         , describe "Ginger.Error"
             [ test "Gives an English 404 message" <|
                 \() ->
-                    Ginger.Error.errormessage EN (Http.BadStatus 404)
+                    Ginger.Error.errormessage Translation.EN (Http.BadStatus 404)
                         |> Expect.equal { title = "404 Not Found", body = "Sorry, the page you are looking for doesn't exist." }
+            , test "Shows a Dutch Badbody error" <|
+                \() ->
+                    Ginger.Error.errormessage Translation.NL (Http.BadBody "error")
+                        |> Expect.equal { title = "Er was een probleem met het lezen van de data", body = "error" }
             ]
         ]
